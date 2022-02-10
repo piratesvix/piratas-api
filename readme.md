@@ -8,6 +8,18 @@
 <br>
 <br>
 
+Crie um ambiente
+
+```sh
+py -3 -m venv venv
+```
+
+Ativar ambiente
+
+```sh
+venv \scripts\activate
+```
+
 Instalar depedências 
 
 ```sh
