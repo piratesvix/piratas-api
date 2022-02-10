@@ -8,6 +8,12 @@
 <br>
 <br>
 
+Instalar depedências 
+
+```sh
+pip install -r requirements.txt
+```
+
 Adicionar variável de ambiente `FLASK_APP` e definir o nome do aplicativo associado ao arquivo do servidor Flask
 
 ```sh
