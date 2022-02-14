@@ -92,3 +92,28 @@ def enviar_cotacao():
     except:
         # Erro ao tentar criar o recurso
         return "", 500
+
+# rota para solicitar serviço
+@app.route("/novo/projeto", methods=['POST'])
+def novo_projeto():
+    try:
+        # solicitar serviço
+        try:
+            body = request.json
+            db.solicitacoes.insert_one({ '_id': request.json.get('email', None), 'nome': request.json.get('nome', None), 'email': request.json.get('email', None), 'telefone': request.json.get('telefone', None), 'categoria': request.json.get('categoria', None)})
+            
+            return body
+        except:
+            # solicitação incorreta, pois o corpo da solicitação não está disponível
+            # adiciona mensagem para fins de depuração
+            return "", 400
+        # Prepare the response
+        if isinstance(data, list):
+            # retorna a lista de Id do item recém-criado
+            return jsonify([str(v) for v in data]), 201
+        else:
+            # retorna o Id do item recém-criado
+            return jsonify(str(data)), 201
+    except:
+        # Erro ao tentar criar o recurso
+        return "", 500
