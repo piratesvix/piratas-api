@@ -39,11 +39,11 @@ def pirata():
     for pirata in _piratas:
         item = {
             'id': str(pirata['_id']),
-            'nome': pirata['nome']
-            'sobrenome': pirata['sobrenome']
-            'email': pirata['email']
-            'idade': pirata['idade']
-            'url': pirata['url']
+            'nome': pirata['nome'],
+            'sobrenome': pirata['sobrenome'],
+            'email': pirata['email'],
+            'idade': pirata['idade'],
+            'url': pirata['url'],
         }
         # adicionar elemento
         data.append(item)
