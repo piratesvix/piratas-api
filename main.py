@@ -34,7 +34,6 @@ def piratas():
 
     # variável tipo interface
     item = {}
-    # variável tipo array
     data = []
     # percorrer elementos para cada pirata e exibir dados básico sobre ele em formato JSON
     for pirata in _piratas:
@@ -68,3 +67,28 @@ def pirata(pirataId):
 def pirata_github(github):
     pirata = db.piratas.find_one({"github": github})
     return pirata
+
+# rota para solicitar cotação do projeto desejado
+@app.route("/send/cotacao", methods=['POST'])
+def enviar_cotacao():
+    try:
+        # criar cotação
+        try:
+            body = request.json
+            db.cotacoes.insert_one({ '_id': request.json.get('_id', None), 'nome': request.json.get('nome', None), 'empresa': request.json.get('empresa', None), 'email': request.json.get('email', None), 'sinopse_do_projeto': request.json.get('sinopse_do_projeto', None), 'valor_total_estimado': request.json.get('valor_estimado', None)})
+            
+            return body
+        except:
+            # solicitação incorreta, pois o corpo da solicitação não está disponível
+            # adiciona mensagem para fins de depuração
+            return "", 400
+        # Prepare the response
+        if isinstance(data, list):
+            # retorna a lista de Id do item recém-criado
+            return jsonify([str(v) for v in data]), 201
+        else:
+            # retorna o Id do item recém-criado
+            return jsonify(str(data)), 201
+    except:
+        # Erro ao tentar criar o recurso
+        return "", 500
