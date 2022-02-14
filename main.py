@@ -26,8 +26,9 @@ def add_pirates():
         ])
     return jsonify(message="Pirata adicionado", status="success"), 201
 
+# rota para obter lista de todos piratas
 @app.route('/piratas')
-def pirata():
+def piratas():
     # atribuir informações da query em variável '_piratas'
     _piratas = db.piratas.find()
 
@@ -43,6 +44,8 @@ def pirata():
             'sobrenome': pirata['sobrenome'],
             'email': pirata['email'],
             'idade': pirata['idade'],
+            'github': pirata['github'],
+            'linkedin': pirata['linkedin'],
             'url': pirata['url'],
         }
         # adicionar elemento
@@ -53,3 +56,15 @@ def pirata():
         status=True,
         data=data
     )
+
+# rota para obter pirata específico através de 'id'
+@app.route("/pirata/<int:pirataId>")
+def pirata(pirataId):
+    pirata = db.piratas.find_one({"_id": pirataId})
+    return pirata
+
+# rota para obter pirata específico através do github
+@app.route("/pirata/<string:github>")
+def pirata_github(github):
+    pirata = db.piratas.find_one({"github": github})
+    return pirata
