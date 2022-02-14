@@ -25,3 +25,31 @@ def add_pirates():
         {'_id': 2, 'nome': "William", 'sobrenome':"Agostini", 'email':"willsantos96@gmail.com", 'idade': "27", 'cargo': "Sócio Desenvolvedor", 'genero': "masculino", 'github': "willsantos96", 'url': "https://williamagostini.github.io/", 'linkedin': "william-agostini", 'skills': "js - html - css - py - shell - docker - linux/windows"},
         ])
     return jsonify(message="Pirata adicionado", status="success"), 201
+
+@app.route('/piratas')
+def pirata():
+    # atribuir informações da query em variável '_piratas'
+    _piratas = db.piratas.find()
+
+    # variável tipo interface
+    item = {}
+    # variável tipo array
+    data = []
+    # percorrer elementos para cada pirata e exibir dados básico sobre ele em formato JSON
+    for pirata in _piratas:
+        item = {
+            'id': str(pirata['_id']),
+            'nome': pirata['nome']
+            'sobrenome': pirata['sobrenome']
+            'email': pirata['email']
+            'idade': pirata['idade']
+            'url': pirata['url']
+        }
+        # adicionar elemento
+        data.append(item)
+        
+    # retornar piratas
+    return jsonify(
+        status=True,
+        data=data
+    )
