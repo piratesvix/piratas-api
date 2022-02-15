@@ -1,0 +1,3 @@
+"https://{default}/api":
+    type: upstream
+    upstream: "api:http"
