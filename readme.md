@@ -1,7 +1,6 @@
 ## Piratas API
 
-
-### Executando o Serviço
+### Executando o Serviço API
 
   **API** (Application Programming Interface) é um conjunto de rotinas e padrões que facilitam a comunicação e troca de informações entre sistemas.
 
@@ -39,3 +38,19 @@ flask run
 ```
 <br>
 <br>
+
+### Executando o Serviço API em container Docker
+
+Construa uma imagem docker executando o seguinte comando:
+
+``sh
+docker build -t <nome> <dockerfile>
+``
+
+Após a imagem estiver construída, nós iremos subir a imagem para um container e expor o serviço do **piratas-api** na porta 5000
+
+``sh
+docker run -d -p 5000:5000 <nome>
+``
+
+Agora acesse http://localhost:5000 de seu navegador ou aplicativo de requisições.
