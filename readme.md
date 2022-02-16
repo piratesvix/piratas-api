@@ -54,3 +54,23 @@ docker run -d -p 5000:5000 <nome>
 ``
 
 Agora acesse http://localhost:5000 de seu navegador ou aplicativo de requisições.
+
+<br>
+
+## Como se interagir com o container
+
+Primeiro inicie o container com:
+
+```sh
+docker start <id-container>
+```
+
+```sh
+docker attach <id-container>
+```
+
+## Apagar Todos Containers, Imagens & Cache
+
+```sh
+docker system prune -a
+```
