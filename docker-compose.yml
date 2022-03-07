@@ -1,0 +1,78 @@
+version: '3'
+services:
+# serviço para API em Flask Python
+  pirates-flask-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pirates-api-flask
+    image: python:3.6.8-alpine3.9
+    restart: unless-stopped
+    environment:
+      APP_ENV: "prod"
+      APP_DEBUG: "False"
+      APP_PORT: 5000
+      MONGODB_DATABASE: pirates-api
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: 12345
+      MONGODB_HOSTNAME: mongodb
+    volumes:
+      - appdata:/var/www
+    depends_on:
+      - mongodb
+    networks:
+      - client
+      - server
+# serviço para banco de dados NoSQL MongoDB
+  mongodb:
+    image: mongo:4.0.8
+    container_name: mongodb
+    restart: unless-stopped
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodbuser
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      MONGO_INITDB_DATABASE: pirates-api
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - server
+# web server com nginx
+  webserver:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: alpine:latest
+    container_name: webserver-nginx
+    restart: unless-stopped
+    environment:
+      APP_ENV: "prod"
+      APP_NAME: "webserver-nginx"
+      APP_DEBUG: "false"
+      SERVICE_NAME: "webserver-nginx"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginxdata:/var/log/nginx
+    depends_on:
+      - pirates-flask-api
+    networks:
+      - client
+# networks
+networks:
+  client:
+    driver: bridge
+  server:
+    driver: bridge
+# volumes
+volumes:
+  mongodbdata:
+    driver: local
+  appdata:
+    driver: local
+  nginxdata:
+    driver: local
+
