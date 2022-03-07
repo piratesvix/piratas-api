@@ -1,6 +1,6 @@
 # buscando imagem linux ubuntu versão 20.04
 FROM python:3.6.8-alpine3.9
-# Metadata indicating an image maintainer.
+# Metadata criadores da imagem.
 LABEL maintainer="William Agostini <willsantos96@gmail.com> @willsantos96"
 LABEL maintainer="Aníbal Souza <annibalhsouza@gmail.com> @ahsouza"
 # determinando diretório atual no container

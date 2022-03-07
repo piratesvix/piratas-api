@@ -12,6 +12,8 @@ RUN apk --update add nginx && \
     rm -rf /etc/nginx/conf.d/default.conf && \
     rm -rf /var/cache/apk/*
 
+# copiar arquivo de configuração nginx e enviar para caminho 
+# nginx web server container
 COPY conf.d/app.conf /etc/nginx/conf.d/app.conf
 
 # expor aplicação em porta segura 443
