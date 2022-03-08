@@ -2,7 +2,7 @@
 
 ## Piratas API
 
-### Executando o Serviço API
+### Utilizar o Serviço de API localmente
 
   **API** (Application Programming Interface) é um conjunto de rotinas e padrões que facilitam a comunicação e troca de informações entre sistemas.
 
@@ -41,7 +41,7 @@ flask run
 <br>
 <br>
 
-# Utilizando o Serviço de API em container Docker
+# Utilizando o Serviço da API em container Docker
 
 Construa uma imagem docker executando o seguinte comando:
 
@@ -55,12 +55,11 @@ Após a imagem estiver construída, nós iremos subir a imagem para um container
 docker run -d -p 5000:5000 <nome>
 ``
 
-Agora acesse http://localhost:5000 de seu navegador ou aplicativo de requisições.
+Agora acesse http://piratesvix; ou http://ip_do_container;  de seu navegador ou aplicativo de requisições.
 
 <br>
 
-
-## Como se interagir com o container
+## Como Se Interagir Com o Container
 
 Primeiro inicie o container com:
 
@@ -73,13 +72,6 @@ docker attach <id-container>
 ```
 
 <br>
-
-## Apagar Todos Containers, Imagens & Cache
-
-```sh
-docker system prune -a
-```
-
 <br>
 
 ## Apagar Todos Containers, Imagens & Cache
@@ -89,6 +81,36 @@ docker system prune -a
 ```
 <br>
 
-# Utilizando Docker-Compose
+# Construír Projeto
 
 Utilize o comando `docker-compose up -d` para construir os serviços que estão adicionados no arquivo **docker-compose.yml** do projeto
+
+<br><br>
+
+# Utilizando o Serviço do MongoDB em Container Docker MongoDB
+
+`docker exec -it mongodb bash`
+
+<br>
+
+1. Após entrar no container, efetue login da sua conta administrativa root do MongoDB
+
+  `mongo -u mongodbuser -p`
+
+<br>
+
+2. Crie e use um Banco de Dados nomeado de `pirates-api` com o seguinte comando:
+
+  `mongodb> use pirates-api;` 
+
+<br>
+
+3. Adicionar um usuário administrativo para o **MongoDB**:
+
+  `db.createUser({user: 'root', pwd: '12345', roles: [{role: 'readWrite', db: 'piratas-api'}]})`
+
+<br>
+
+4. Efetuar login de usuário autenticado no banco de dados:
+  
+  `mongo -u root -p 12345 --authenticationDatabase pirates-api`
