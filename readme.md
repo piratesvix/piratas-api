@@ -81,36 +81,46 @@ docker system prune -a
 ```
 <br>
 
-# Construír Projeto
+# Construír Todo Projeto
 
 Utilize o comando `docker-compose up -d` para construir os serviços que estão adicionados no arquivo **docker-compose.yml** do projeto
 
 <br><br>
 
-# Utilizando o Serviço do MongoDB em Container Docker MongoDB
+# Utilizando o Serviço do MongoDB em Container Docker
 
-`docker exec -it mongodb bash`
+```sh
+docker exec -it mongodb bash
+```
 
 <br>
 
 1. Após entrar no container, efetue login da sua conta administrativa root do MongoDB
 
-  `mongo -u mongodbuser -p`
+```sh
+ mongo -u mongodbuser -p
+```
 
 <br>
 
-2. Crie e use um Banco de Dados nomeado de `pirates-api` com o seguinte comando:
+1. Crie e use um Banco de Dados nomeado de `pirates-api` com o seguinte comando:
 
-  `mongodb> use pirates-api;` 
+```sh
+ mongodb> use pirates-api;
+```
 
 <br>
 
 3. Adicionar um usuário administrativo para o **MongoDB**:
 
-  `db.createUser({user: 'root', pwd: '12345', roles: [{role: 'readWrite', db: 'piratas-api'}]})`
+  ```sh
+  db.createUser({user: 'root', pwd: '12345', roles: [{role: 'readWrite', db: 'piratas-api'}]})
+  ```
 
 <br>
 
-4. Efetuar login de usuário autenticado no banco de dados:
+1. Efetuar login de usuário autenticado no banco de dados:
   
-  `mongo -u root -p 12345 --authenticationDatabase pirates-api`
+  ```sh
+  mongo -u root -p 12345 --authenticationDatabase pirates-api
+  ```
