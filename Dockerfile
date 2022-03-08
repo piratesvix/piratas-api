@@ -11,8 +11,11 @@ ENV GROUP_ID=1000 \
 # fazendo cópia de todo conteúdo no diretório atual para o diretório atual do container
 ADD . /var/www
 # instalar pacotes pip
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
+RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install gunicorn
 
 # criar o usuário 'pirata' e atribuir ao grupo de acesso ao container
 RUN addgroup -g $GROUP_ID piratesvix
