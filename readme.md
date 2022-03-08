@@ -1,3 +1,5 @@
+<br>
+
 ## Piratas API
 
 ### Executando o Serviço API
@@ -39,7 +41,7 @@ flask run
 <br>
 <br>
 
-### Executando o Serviço API em container Docker
+# Utilizando o Serviço de API em container Docker
 
 Construa uma imagem docker executando o seguinte comando:
 
@@ -57,6 +59,7 @@ Agora acesse http://localhost:5000 de seu navegador ou aplicativo de requisiçõ
 
 <br>
 
+
 ## Como se interagir com o container
 
 Primeiro inicie o container com:
@@ -69,8 +72,23 @@ docker start <id-container>
 docker attach <id-container>
 ```
 
+<br>
+
 ## Apagar Todos Containers, Imagens & Cache
 
 ```sh
 docker system prune -a
 ```
+
+<br>
+
+## Apagar Todos Containers, Imagens & Cache
+
+```sh
+docker system prune -a
+```
+<br>
+
+# Utilizando Docker-Compose
+
+Utilize o comando `docker-compose up -d` para construir os serviços que estão adicionados no arquivo **docker-compose.yml** do projeto
