@@ -1,3 +1,4 @@
+import email
 import os
 from flask import Flask, render_template, request, jsonify
 from flask_pymongo import PyMongo
@@ -66,6 +67,12 @@ def pirata(pirataId):
 @app.route("/pirata/<string:github>")
 def pirata_github(github):
     pirata = db.piratas.find_one({"github": github})
+    return pirata
+
+# rota para obter pirata específico através do email
+@app.route("/pirata/<string:email>")
+def pirata_github(email):
+    pirata = db.piratas.find_one({"email": email})
     return pirata
 
 # rota para solicitar cotação do projeto desejado
