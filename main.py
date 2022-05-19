@@ -7,27 +7,37 @@ from flask_pymongo import PyMongo
 app = Flask(__name__, template_folder='templates')
 
 # uri - faça a conexão com banco de dados MongoDB utilizando variáveis de ambiente do sistema operacional
-app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
+app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + \
+    '@' + os.environ['MONGODB_HOSTNAME'] + \
+    ':27017/' + os.environ['MONGODB_DATABASE']
 
 # atribuindo recursos mongo python em variável
 mongo = PyMongo(app)
 db = mongo.db
 
 # Rota Inicial renderizando template
+
+
 @app.route("/")
 def hello_world():
     return render_template('index.html')
 
-# Rota para persistir dados em MongoDB 
+# Rota para persistir dados em MongoDB
+
+
 @app.route("/new/piratas")
 def add_pirates():
     db.piratas.insert_many([
-        {'_id': 1, 'nome': "Henrique", 'sobrenome':"Souza", 'email':"annibalhsouza@gmail.com", 'idade': "29", 'cargo': "fundador/CTO",  'genero': "masculino", 'github': "ahsouza", 'url': "https://ahsouza.github.io/", 'linkedin': "anibalhenriquesouza", 'skills': "rust - go - js - ts - html - css - java - c/c++ - c# - py - shell - linux/windows/darwin" },
-        {'_id': 2, 'nome': "William", 'sobrenome':"Agostini", 'email':"willsantos96@gmail.com", 'idade': "27", 'cargo': "Sócio Desenvolvedor", 'genero': "masculino", 'github': "willsantos96", 'url': "https://williamagostini.github.io/", 'linkedin': "william-agostini", 'skills': "js - html - css - py - shell - docker - linux/windows"},
-        ])
+        {'_id': 1, 'nome': "Henrique", 'sobrenome': "Souza", 'email': "annibalhsouza@gmail.com", 'idade': "29", 'cargo': "fundador/CTO",  'genero': "masculino", 'github': "ahsouza",
+            'url': "https://ahsouza.github.io/", 'linkedin': "anibalhenriquesouza", 'skills': "rust - go - js - ts - html - css - java - c/c++ - c# - py - shell - linux/windows/darwin"},
+        {'_id': 2, 'nome': "William", 'sobrenome': "Agostini", 'email': "willsantos96@gmail.com", 'idade': "27", 'cargo': "Sócio Desenvolvedor", 'genero': "masculino",
+            'github': "willsantos96", 'url': "https://williamagostini.github.io/", 'linkedin': "william-agostini", 'skills': "js - html - css - py - shell - docker - linux/windows"},
+    ])
     return jsonify(message="Pirata adicionado", status="success"), 201
 
 # rota para obter lista de todos piratas
+
+
 @app.route('/piratas')
 def piratas():
     # atribuir informações da query em variável '_piratas'
@@ -50,7 +60,7 @@ def piratas():
         }
         # adicionar elemento
         data.append(item)
-        
+
     # retornar piratas
     return jsonify(
         status=True,
@@ -58,32 +68,49 @@ def piratas():
     )
 
 # rota para obter pirata específico através de 'id'
+
+
 @app.route("/pirata/<int:pirataId>")
 def pirata(pirataId):
     pirata = db.piratas.find_one({"_id": pirataId})
     return pirata
 
 # rota para obter pirata específico através do github
+
+
 @app.route("/pirata/<string:github>")
 def pirata_github(github):
     pirata = db.piratas.find_one({"github": github})
     return pirata
 
 # rota para obter pirata específico através do email
+
+
 @app.route("/pirata/<string:email>")
-def pirata_github(email):
+def pirata_email(email):
     pirata = db.piratas.find_one({"email": email})
     return pirata
 
+# rota para obter pirata específico através do linkedin
+
+
+@app.route("/pirata/<string:linkedin>")
+def pirata_linkedin(linkedin):
+    pirata = db.piratas.find_one({"linkedin": linkedin})
+    return pirata
+
 # rota para solicitar cotação do projeto desejado
+
+
 @app.route("/send/cotacao", methods=['POST'])
 def enviar_cotacao():
     try:
         # criar cotação
         try:
             body = request.json
-            db.cotacoes.insert_one({ '_id': request.json.get('_id', None), 'nome': request.json.get('nome', None), 'empresa': request.json.get('empresa', None), 'email': request.json.get('email', None), 'sinopse_do_projeto': request.json.get('sinopse_do_projeto', None), 'valor_total_estimado': request.json.get('valor_estimado', None)})
-            
+            db.cotacoes.insert_one({'_id': request.json.get('_id', None), 'nome': request.json.get('nome', None), 'empresa': request.json.get('empresa', None), 'email': request.json.get(
+                'email', None), 'sinopse_do_projeto': request.json.get('sinopse_do_projeto', None), 'valor_total_estimado': request.json.get('valor_estimado', None)})
+
             return body
         except:
             # solicitação incorreta, pois o corpo da solicitação não está disponível
@@ -101,14 +128,17 @@ def enviar_cotacao():
         return "", 500
 
 # rota para solicitar serviço
+
+
 @app.route("/novo/projeto", methods=['POST'])
 def novo_projeto():
     try:
         # solicitar serviço
         try:
             body = request.json
-            db.solicitacoes.insert_one({ '_id': request.json.get('email', None), 'nome': request.json.get('nome', None), 'email': request.json.get('email', None), 'telefone': request.json.get('telefone', None), 'categoria': request.json.get('categoria', None)})
-            
+            db.solicitacoes.insert_one({'_id': request.json.get('email', None), 'nome': request.json.get('nome', None), 'email': request.json.get(
+                'email', None), 'telefone': request.json.get('telefone', None), 'categoria': request.json.get('categoria', None)})
+
             return body
         except:
             # solicitação incorreta, pois o corpo da solicitação não está disponível
@@ -124,6 +154,8 @@ def novo_projeto():
     except:
         # Erro ao tentar criar o recurso
         return "", 500
+
+
 # executar api
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)
